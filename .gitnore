@@ -1,0 +1,27 @@
+# IntelliJ / CLion
+.idea/
+.vscode/
+cmake-build-debug/
+cmake-build-release/
+
+# Node.js / Frontend
+node_modules/
+dist/
+build/
+*.log
+
+# Java / Spring Boot (Backend)
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Python (falls genutzt)
+__pycache__/
+*.pyc
+*.pyo
+
+# System-Dateien
+.DS_Store
+Thumbs.db
