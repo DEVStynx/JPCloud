@@ -30,14 +30,19 @@ public class SessionEntity {
     @Getter
     private UUID token;
 
+    @Column(name = "username", unique = true, nullable = false)
+    @Getter
+    private String username;
+
     @Column(name = "timecreated")
     @Getter
     private LocalDateTime createdTime;
 
     public SessionEntity() {}
 
-    public SessionEntity(UUID token, String ipAdress, LocalDateTime created) {
+    public SessionEntity(UUID token, String ipAdress, LocalDateTime created, String Username) {
         this.token = token;
+        this.username = Username;
         ip = ipAdress;
         createdTime = created;
     }

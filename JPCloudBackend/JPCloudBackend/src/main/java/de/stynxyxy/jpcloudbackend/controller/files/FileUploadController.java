@@ -1,6 +1,7 @@
 package de.stynxyxy.jpcloudbackend.controller.files;
 
 import de.stynxyxy.jpcloudbackend.service.FilestorageService;
+import de.stynxyxy.jpcloudbackend.service.db.session.SessionValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,10 +17,15 @@ import java.util.logging.Logger;
 public class FileUploadController {
     @Autowired
     FilestorageService service;
+    @Autowired
+    SessionValidationService validationService;
     private static final Logger LOGGER = Logger.getLogger(FileUploadController.class.getName());
 
     @PostMapping("/upload")
-    public boolean upload(@RequestParam("file") MultipartFile file) {
+    public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam(name = "token") String token) {
+        if (!validationService.RemoveCheckValidationOfSession(UUID.fromString(token))) {
+            return false;
+        }
         try {
             service.saveFile(file);
             LOGGER.info("Downloaded new File: "+file.getOriginalFilename());

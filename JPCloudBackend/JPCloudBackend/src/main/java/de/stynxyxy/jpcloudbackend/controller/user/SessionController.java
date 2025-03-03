@@ -17,8 +17,8 @@ public class SessionController {
     SessionService sessionService;
 
     @GetMapping("/session/login")
-    public UUID createSession(HttpServletRequest servlet) {
-            return UUID.fromString(sessionService.createSession(servlet.getRemoteAddr()));
+    public String createSession(HttpServletRequest servlet, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+        return sessionService.createSession(servlet.getRemoteAddr(),username,password);
     }
     @GetMapping("/session/valid")
     public boolean isValid(HttpServletRequest servlet, @RequestParam(name = "token") String tokenstr) {

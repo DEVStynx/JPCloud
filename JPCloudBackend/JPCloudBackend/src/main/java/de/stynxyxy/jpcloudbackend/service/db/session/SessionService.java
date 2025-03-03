@@ -1,5 +1,7 @@
 package de.stynxyxy.jpcloudbackend.service.db.session;
 
+import de.stynxyxy.jpcloudbackend.db.model.user.UserEntity;
+import de.stynxyxy.jpcloudbackend.db.model.user.UserRepository;
 import de.stynxyxy.jpcloudbackend.db.model.user.session.SessionEntity;
 import de.stynxyxy.jpcloudbackend.db.model.user.session.SessionRepository;
 import org.apache.catalina.connector.Response;
@@ -14,22 +16,49 @@ import java.util.logging.Logger;
 public class SessionService {
     @Autowired
     SessionRepository repository;
+    @Autowired
+    UserRepository userRepository;
+
     private static Logger logger = Logger.getLogger(SessionService.class.getName());
 
-    public String createSession(String ipadress) {
+    public String createSession(String ipadress, String username, String password) {
+        //Check if a Session is already existing for the User
+        UserEntity user = userRepository.findByUsername(username);
+        //Check credentials of the User
+        if (user == null) {
+            return "Invalid Username!";
+        }
+        if (!user.getPassword().equals(password)) {
+            return "invalid Password!";
+        }
+        //Does a Session already exist if invalid remove
+        if (repository.existsByUsername(username)) {
+            SessionEntity sessionEntity = repository.findByUsername(username);
+            if (sessionEntity.isStillvalid()) {
+                return "Session already exists for Username!";
+            } else {
+                repository.removeByToken(sessionEntity.getToken());
+            }
+
+        }
+        //Check if the current ip is already taken by another session
         if (repository.existsByIp(ipadress)) {
             return "could not register new User because this Ip is already registered!";
         } else {
             System.out.println("doesn't exist");
         }
+        //generare Token
         UUID token = UUID.randomUUID();
-        SessionEntity entity = new SessionEntity(token,ipadress, LocalDateTime.now());
+        SessionEntity entity = new SessionEntity(token,ipadress, LocalDateTime.now(), username);
+
         repository.save(entity);
 
         logger.info("created new Token for Ipaddress: "+ipadress+ " Token: "+token);
 
         return entity.getToken().toString();
     }
+
+    //Database Methods
     public SessionEntity findByToken(UUID token) {
         return repository.findByToken(token);
     }
