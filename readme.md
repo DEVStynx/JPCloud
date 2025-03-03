@@ -17,7 +17,7 @@ JPCloud is an intuitive cloud solution built with **Java Spring Boot** for the b
 
 ✅ **File Management**: Upload, store, and retrieve files\
 ✅ **User & Session Management**: Secure authentication and authorization\
-✅ **Database Integration**: Store files in SQL or NoSQL databases\
+✅ **Database Integration**: Store files in SQL or NoSQL databases (Currently Only PostgreSQL)\
 ✅ **REST API**: Seamless interaction with other applications\
 ✅ **Windows Frontend**: Efficient user interface for easy access
 
