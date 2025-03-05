@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "sessions")
 public class SessionEntity {
-    public static int SessionValidationTime= 1;
+    public static int SessionValidationTime= 60;
 
 
     @Getter
