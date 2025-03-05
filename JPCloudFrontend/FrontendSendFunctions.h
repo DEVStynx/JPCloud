@@ -13,6 +13,8 @@
 
 #include "datatypes.h"
 #include <vector>
+
+#include "DataHolder.h"
 #ifndef FRONTENDSENDFUNCTIONS_H
 #define FRONTENDSENDFUNCTIONS_H
 
@@ -33,16 +35,20 @@ namespace FrontendSendFunctions {
         std::string formString = path;
         httpRequestHandler::sendFile(
         "http://localhost:8080",
-        "/upload",
+        "/upload&token="+DataHolder::token,
         path
     );
     }
-
+    boolean logout() {
+        std::cout << "Logging Out!" << std::endl;
+        boolean worked = httpRequestHandler::sendGet(DataHolder::url,"/session/logout?token="+DataHolder::token);
+        return worked;
+    }
     auto downloadFile(std::string path, QMainWindow* mainWindow) {
         std::stringstream input;
         input << httpRequestHandler::sendGet( // sendGet gibt möglicherweise die falsche Antwort zurück
-                "http://localhost:8080",
-                "/download?path=" + path)->body;
+                DataHolder::url,
+                "/download?path=" + path+ "&token="+DataHolder::token)->body;
         std::string option = "File (*"+FrontendSendFunctions::getExtension(path)+");;All Files (*.*)";
         std::string ppath = QFileDialog::getSaveFileName(mainWindow, "Save File", "", option.c_str()).toStdString();
         std::ofstream file(ppath, std::ios::binary);
@@ -61,13 +67,28 @@ namespace FrontendSendFunctions {
             "http://localhost:8080",
             "/users/register2/" + username + "/" + password + "/true/true");
     }
+    bool fetchToken() {
+        std::cout << "Fetching Token" << std::endl;
+        try {
+            std::string token = httpRequestHandler::sendGet(
+            DataHolder::url,
+            "/session/login?username=" + DataHolder::username + "&password=" + DataHolder::password
+            )->body;
+            DataHolder::token = token;
+            return true;
+        } catch (...) {
+            return false;
+        }
 
+
+    }
     std::vector<FileInformation> getFiles(std::string path) {
 
         httplib::Params params;
-        std::string endpoint = "/files/list?path=" + path;
 
-        auto result = httpRequestHandler::sendGet("http://localhost:8080",endpoint)->body;
+        std::string endpoint = "/files/list?path=" + path + "&token=" + DataHolder::token;
+
+        auto result = httpRequestHandler::sendGet(DataHolder::url,endpoint)->body;
 
         QByteArray ba = result.c_str();
         QJsonDocument jsondoc = QJsonDocument::fromJson(ba);

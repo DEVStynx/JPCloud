@@ -5,6 +5,8 @@
 #ifndef HTTPREQUESTHANDLER_H
 #define HTTPREQUESTHANDLER_H
 #include <iostream>
+
+#include "DataHolder.h"
 #include "httplib.h"
 
 class httpRequestHandler {
@@ -43,12 +45,13 @@ public:
 
         std::string file_content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-
+        std::string realPath = DataHolder::path + "\\" +getRawName(file_path);
         httplib::MultipartFormDataItems items = {
-            {"file", file_content, getRawName(file_path), "application/octet-stream"}
+            {"file", file_content, realPath, "application/octet-stream"}
         };
 
-        auto res = cli.Post("/upload", items);
+        auto res = cli.Post(("/upload?token=" + DataHolder::token).c_str(), items);
+
 
         if (res && res->status == 200) {
             std::cout << "Upload erfolgreich!" << std::endl;

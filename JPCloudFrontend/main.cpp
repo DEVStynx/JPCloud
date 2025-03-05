@@ -34,7 +34,7 @@ void registerButton(QMainWindow &w, Ui::CloudWindow &cloud_window) {
             showAllFilesAtDir(DataHolder::path, cloud_window);
         } else {
             std::cout << "Downloading File" << cloud_window.cloudFileList->currentItem()->text().toStdString() << std::endl;
-            FrontendSendFunctions::downloadFile(cloud_window.cloudFileList->currentItem()->text().toStdString(),&w);
+            FrontendSendFunctions::downloadFile(DataHolder::path + "/" +cloud_window.cloudFileList->currentItem()->text().toStdString(),&w);
             showAllFilesAtDir(DataHolder::path, cloud_window);
         }
 
@@ -64,8 +64,13 @@ void showAllFilesAtDir(std::string path, Ui::CloudWindow &cloud_window) {
 
     }
 }
+void logout() {
+    std::cout << "LOGGING OUT" << std::endl;
+    std::cout <<"Logout Successful? "+ FrontendSendFunctions::logout() << std::endl;
+}
 
 int main(int argc, char *argv[]) {
+    std::atexit(logout);
     DataHolder::path = "";
     QApplication a(argc, argv);
     QMainWindow w;
@@ -83,9 +88,13 @@ int main(int argc, char *argv[]) {
 
         const std::string username = main_window.usernameIn->toPlainText().toStdString();
         const std::string password = main_window.textEdit_2->toPlainText().toStdString();
+        const std::string url = main_window.textEdit_3->toPlainText().toStdString();
+        DataHolder::username = username;
+        DataHolder::password = password;
+        DataHolder::url = url;
 
-
-
+        std::cout << "Url:" << DataHolder::url << std::endl;
+        FrontendSendFunctions::fetchToken();
         switchToCloudWindow(w, cloud_window);
         registerButton(w, cloud_window);
         showAllFilesAtDir("", cloud_window);
@@ -93,11 +102,7 @@ int main(int argc, char *argv[]) {
 
 
 
-
-
-
-
-
     w.show();
+
     return QApplication::exec();
 }

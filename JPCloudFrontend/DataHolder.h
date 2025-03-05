@@ -9,10 +9,11 @@
 
 class DataHolder {
 public:
+    static std::string url;
     static std::string username;
     static std::string password;
     static std::string path;
-
+    static std::string token;
 
 };
 

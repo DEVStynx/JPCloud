@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+
 
 
 find_package(Qt6 COMPONENTS
@@ -23,6 +23,7 @@ add_executable(JPCloudFrontend main.cpp
         ui_cloudwindow.h
         httplib.h
         httpRequestHandler.cpp
+        DataHolder.cpp
         httpRequestHandler.h
         DataHolder.h
         FrontendSendFunctions.h
