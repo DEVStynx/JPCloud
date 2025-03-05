@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'cloudwindowestlIz.ui'
+** Form generated from reading UI file 'cloudwindowiYZgez.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef CLOUDWINDOWESTLIZ_H
-#define CLOUDWINDOWESTLIZ_H
+#ifndef CLOUDWINDOWIYZGEZ_H
+#define CLOUDWINDOWIYZGEZ_H
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
@@ -38,6 +38,8 @@ public:
     QPushButton *SelectFile;
     QListWidget *cloudFileList_2;
     QPushButton *RefreshButton;
+    QTextEdit *currentServerpathInput;
+    QPushButton *backpathButton;
     QMenuBar *menubar;
     QMenu *menuJpCloud;
     QMenu *menusettings;
@@ -69,17 +71,17 @@ public:
         cloudFileList->setEditTriggers(QAbstractItemView::EditTrigger::CurrentChanged|QAbstractItemView::EditTrigger::DoubleClicked|QAbstractItemView::EditTrigger::EditKeyPressed|QAbstractItemView::EditTrigger::SelectedClicked);
         UploadButton = new QPushButton(centralwidget);
         UploadButton->setObjectName("UploadButton");
-        UploadButton->setGeometry(QRect(690, 0, 101, 24));
+        UploadButton->setGeometry(QRect(300, 0, 101, 24));
         pathInput = new QTextEdit(centralwidget);
         pathInput->setObjectName("pathInput");
-        pathInput->setGeometry(QRect(460, 0, 211, 31));
+        pathInput->setGeometry(QRect(80, 0, 211, 31));
         QFont font1;
         font1.setPointSize(7);
         font1.setBold(true);
         pathInput->setFont(font1);
         SelectFile = new QPushButton(centralwidget);
         SelectFile->setObjectName("SelectFile");
-        SelectFile->setGeometry(QRect(640, 0, 31, 31));
+        SelectFile->setGeometry(QRect(260, 0, 31, 31));
         QIcon icon(QIcon::fromTheme(QIcon::ThemeIcon::DocumentSaveAs));
         SelectFile->setIcon(icon);
         cloudFileList_2 = new QListWidget(centralwidget);
@@ -97,6 +99,17 @@ public:
         RefreshButton->setGeometry(QRect(0, 0, 71, 24));
         QIcon icon1(QIcon::fromTheme(QIcon::ThemeIcon::ViewRefresh));
         RefreshButton->setIcon(icon1);
+        currentServerpathInput = new QTextEdit(centralwidget);
+        currentServerpathInput->setObjectName("currentServerpathInput");
+        currentServerpathInput->setGeometry(QRect(500, 0, 211, 31));
+        currentServerpathInput->setFont(font1);
+        backpathButton = new QPushButton(centralwidget);
+        backpathButton->setObjectName("backpathButton");
+        backpathButton->setGeometry(QRect(460, 0, 32, 32));
+        backpathButton->setMinimumSize(QSize(32, 32));
+        backpathButton->setMaximumSize(QSize(32, 32));
+        QIcon icon2(QIcon::fromTheme(QIcon::ThemeIcon::DocumentRevert));
+        backpathButton->setIcon(icon2);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -133,6 +146,8 @@ public:
         pathInput->setPlaceholderText(QCoreApplication::translate("MainWindow", "path", nullptr));
         SelectFile->setText(QString());
         RefreshButton->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        currentServerpathInput->setPlaceholderText(QCoreApplication::translate("MainWindow", "cloud path", nullptr));
+        backpathButton->setText(QString());
         menuJpCloud->setTitle(QCoreApplication::translate("MainWindow", "JpCloud", nullptr));
         menusettings->setTitle(QCoreApplication::translate("MainWindow", "settings", nullptr));
     } // retranslateUi
@@ -140,9 +155,9 @@ public:
 };
 
 namespace Ui {
-    class CloudWindow: public ::Ui_CloudWindow {};
+    class CloudWindow: public Ui_CloudWindow {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // CLOUDWINDOWESTLIZ_H
+#endif // CLOUDWINDOWIYZGEZ_H

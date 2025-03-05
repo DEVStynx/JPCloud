@@ -32,6 +32,7 @@ void registerButton(QMainWindow &w, Ui::CloudWindow &cloud_window) {
             std::cout << "Directory" << std::endl;
             DataHolder::path = DataHolder::path + "/" + item->text().toStdString();
             showAllFilesAtDir(DataHolder::path, cloud_window);
+            cloud_window.currentServerpathInput->setText(DataHolder::path.c_str());
         } else {
             std::cout << "Downloading File" << cloud_window.cloudFileList->currentItem()->text().toStdString() << std::endl;
             FrontendSendFunctions::downloadFile(DataHolder::path + "/" +cloud_window.cloudFileList->currentItem()->text().toStdString(),&w);

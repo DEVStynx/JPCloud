@@ -41,7 +41,7 @@
    <widget class="QPushButton" name="UploadButton">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>300</x>
       <y>0</y>
       <width>101</width>
       <height>24</height>
@@ -54,7 +54,7 @@
    <widget class="QTextEdit" name="pathInput">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>80</x>
       <y>0</y>
       <width>211</width>
       <height>31</height>
@@ -73,7 +73,7 @@
    <widget class="QPushButton" name="SelectFile">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>260</x>
       <y>0</y>
       <width>31</width>
       <height>31</height>
@@ -133,6 +133,53 @@
     </property>
     <property name="icon">
      <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="currentServerpathInput">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>0</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="placeholderText">
+     <string>cloud path</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="backpathButton">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>0</y>
+      <width>32</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="QIcon::ThemeIcon::DocumentRevert"/>
     </property>
    </widget>
   </widget>
