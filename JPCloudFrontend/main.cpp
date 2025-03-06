@@ -26,11 +26,14 @@ void registerButton(QMainWindow &w, Ui::CloudWindow &cloud_window) {
     });
 
     QApplication::connect(cloud_window.cloudFileList, &QListWidget::itemDoubleClicked, [&cloud_window,&w](QListWidgetItem* item) {
-        std::vector<FileInformation> res = FrontendSendFunctions::getFiles(DataHolder::path + "/" + item->text().toStdString());
+        FileInformation info = FrontendSendFunctions::getFileInformation(DataHolder::path + "/" + item->text().toStdString());
 
-        if (res.size() > 1) {
+
+
+        if (info.isDirectory) {
             std::cout << "Directory" << std::endl;
             DataHolder::path = DataHolder::path + "/" + item->text().toStdString();
+
             showAllFilesAtDir(DataHolder::path, cloud_window);
             cloud_window.currentServerpathInput->setText(DataHolder::path.c_str());
         } else {

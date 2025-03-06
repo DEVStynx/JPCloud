@@ -82,6 +82,22 @@ namespace FrontendSendFunctions {
 
 
     }
+    FileInformation getFileInformation(std::string path) {
+        httplib::Params params;
+
+        std::string endpoint = "/file/info?path=" + path + "&token=" + DataHolder::token;
+        auto result = httpRequestHandler::sendGet(DataHolder::url, endpoint)->body;
+        QByteArray ba = result.c_str();
+        QJsonDocument jsondoc = QJsonDocument::fromJson(ba);
+        QJsonObject obj = jsondoc.object();
+        std::string filename = obj.value("name").toString().toStdString();
+        std::string pathvar = obj.value("path").toString().toStdString();
+        long size = obj.value("size").toInt();
+        bool isDirectory = obj.value("dir").toBool();
+        FileInformation fileInformation = FileInformation(filename, pathvar, size, isDirectory);
+        std::cout << "path: " + pathvar +"is Dir" << isDirectory << std::endl;
+        return fileInformation;
+    }
     std::vector<FileInformation> getFiles(std::string path) {
 
         httplib::Params params;
