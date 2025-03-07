@@ -12,7 +12,7 @@ void switchToCloudWindow(QMainWindow &w, Ui::CloudWindow &cloud_window) {
     cloud_window.setupUi(&w);
     w.show();
 }
-
+void logout();
 void registerButton(QMainWindow &w, Ui::CloudWindow &cloud_window) {
     QApplication::connect(cloud_window.UploadButton, &QPushButton::clicked, [&cloud_window]() {
         FrontendSendFunctions::sendFile(cloud_window.pathInput->toPlainText().toStdString());
@@ -45,6 +45,9 @@ void registerButton(QMainWindow &w, Ui::CloudWindow &cloud_window) {
     });
     QApplication::connect(cloud_window.RefreshButton, &QPushButton::clicked, [&]() {
         showAllFilesAtDir(DataHolder::path, cloud_window);
+    });
+    QApplication::connect(cloud_window.action_disconnect,QAction::trigger,[&]() {
+        logout();
     });
 }
 
