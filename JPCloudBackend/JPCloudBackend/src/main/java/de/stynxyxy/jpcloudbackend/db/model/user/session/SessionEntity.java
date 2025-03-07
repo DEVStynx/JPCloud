@@ -40,9 +40,9 @@ public class SessionEntity {
 
     public SessionEntity() {}
 
-    public SessionEntity(UUID token, String ipAdress, LocalDateTime created, String Username) {
+    public SessionEntity(UUID token, String ipAdress, LocalDateTime created, String username) {
         this.token = token;
-        this.username = Username;
+        this.username = username;
         ip = ipAdress;
         createdTime = created;
     }
