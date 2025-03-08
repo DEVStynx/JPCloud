@@ -1,9 +1,6 @@
-package de.stynxyxy.jpcloudbackend.service;
+package de.stynxyxy.jpcloudbackend.service.files;
 
 import de.stynxyxy.jpcloudbackend.Main;
-import lombok.extern.java.Log;
-import org.hibernate.sql.exec.ExecutionException;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

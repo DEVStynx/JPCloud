@@ -1,7 +1,7 @@
-package de.stynxyxy.jpcloudbackend.controller.files;
+package de.stynxyxy.jpcloudbackend.controller.files.management;
 
 import de.stynxyxy.jpcloudbackend.model.FileInformation;
-import de.stynxyxy.jpcloudbackend.service.FileGetterService;
+import de.stynxyxy.jpcloudbackend.service.files.FileGetterService;
 import de.stynxyxy.jpcloudbackend.service.db.session.SessionValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

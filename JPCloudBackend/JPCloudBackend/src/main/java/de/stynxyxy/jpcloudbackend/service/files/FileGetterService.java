@@ -1,4 +1,4 @@
-package de.stynxyxy.jpcloudbackend.service;
+package de.stynxyxy.jpcloudbackend.service.files;
 
 import de.stynxyxy.jpcloudbackend.Main;
 import de.stynxyxy.jpcloudbackend.model.FileInformation;

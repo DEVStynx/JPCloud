@@ -3,7 +3,7 @@ package de.stynxyxy.jpcloudbackend.service.db.files;
 import de.stynxyxy.jpcloudbackend.Main;
 import de.stynxyxy.jpcloudbackend.db.model.file.FileEntity;
 import de.stynxyxy.jpcloudbackend.db.model.file.FileRepository;
-import de.stynxyxy.jpcloudbackend.service.FilestorageService;
+import de.stynxyxy.jpcloudbackend.service.files.FilestorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
