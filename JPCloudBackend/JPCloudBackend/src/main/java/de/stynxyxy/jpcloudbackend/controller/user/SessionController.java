@@ -55,14 +55,11 @@ public class SessionController {
     }
 
     @GetMapping("/session/login/web")
-    public ResponseEntity<Void> createSession(HttpServletRequest servlet, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "web") String web) {
-        if (!web.equals("on")) {
-            return ResponseEntity.status(403).build();
-        }
+    public ResponseEntity<Void> createwebSession(HttpServletRequest servlet, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
         String token = sessionService.createSession(servlet.getRemoteAddr(),username,password);
-        if (token != null) {
+        if (token != null && !token.contains("Err")) {
             return ResponseEntity.status(302).header("Location","/main.html?token=" + token).build();
         }
-        return ResponseEntity.status(401).build();
+        return ResponseEntity.status(302).header("Location","/error.html?error="+token).build();
     }
 }

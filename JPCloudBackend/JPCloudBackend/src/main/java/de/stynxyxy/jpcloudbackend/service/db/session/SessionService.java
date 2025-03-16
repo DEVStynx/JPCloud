@@ -26,16 +26,16 @@ public class SessionService {
         UserEntity user = userRepository.findByUsername(username);
         //Check credentials of the User
         if (user == null) {
-            return "Invalid Username!";
+            return "Err Invalid Username!";
         }
         if (!user.getPassword().equals(password)) {
-            return "invalid Password!";
+            return "Err invalid Password!";
         }
         //Does a Session already exist if invalid remove
         if (repository.existsByUsername(username)) {
             SessionEntity sessionEntity = repository.findByUsername(username);
             if (sessionEntity.isStillvalid()) {
-                return "Session already exists for Username!";
+                return "Err Session already exists for Username!";
             } else {
                 repository.removeByToken(sessionEntity.getToken());
             }
@@ -43,7 +43,7 @@ public class SessionService {
         }
         //Check if the current ip is already taken by another session
         if (repository.existsByIp(ipadress)) {
-            return "could not register new User because this Ip is already registered!";
+            return "Err could not register new User because this Ip is already registered!";
         } else {
             System.out.println("doesn't exist");
         }
