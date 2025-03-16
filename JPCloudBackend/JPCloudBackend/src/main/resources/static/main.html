@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JPCloud - File Explorer</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title">JPCloud Explorer</div>
+            <input type="text" class="path-input" placeholder="Enter path..." value="C:/Users/jonas/Documents">
+        </div>
+        <div class="toolbar">
+            <button>Upload</button>
+            <button>Create Folder</button>
+            <button>Delete</button>
+        </div>
+        <div class="content-wrapper">
+            <div class="sidebar">
+                <ul>
+                    <li>Home</li>
+                    <li>My Files</li>
+                    <li>Shared</li>
+                    <li>Trash</li>
+                    <li>Settings</li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="file-grid">
+                    <div class="file">
+                        <div class="icon">📄</div>
+                        <div class="name">Document1.txt</div>
+                    </div>
+                    <div class="file">
+                        <div class="icon">📁</div>
+                        <div class="name">Photos</div>
+                    </div>
+                    <div class="file">
+                        <div class="icon">📄</div>
+                        <div class="name">Presentation.pptx</div>
+                    </div>
+                    <div class="file">
+                        <div class="icon">📄</div>
+                        <div class="name">Spreadsheet.xlsx</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
