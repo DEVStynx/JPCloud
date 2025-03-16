@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JPCloude | Issue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="title">
+        <h1>Error Interacting with JpCloud</h1>
+    </div>
+    <form>
+        <div class="content">
+            <div class="error">
+                <h1>
+                    JpCloud Error:
+                </h1>
+            </div>
+            <div class="error-message">
+                <p id="message">Error</p>
+            </div>
+            <p id="tamsg">contact the developers. Please try again later.</p>
+        </div>
+    </form>
+    <script>
+        const queryParams = window.location.search;
+        console.log("Query Parameters:", queryParams);
+    
+        const urlParams = new URLSearchParams(queryParams);
+        const errorParam = urlParams.get('error'); 
+        console.log("Error Parameter:", errorParam);
+    
+        const message = document.getElementById('message');
+        if (errorParam) {
+            message.textContent = errorParam;
+        }
+    </script>
+
+</body>
+</html>

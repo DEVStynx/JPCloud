@@ -23,6 +23,19 @@ body {
     justify-content: center;
 }
 
+.error h1 {
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
 .title h1 {
     font-size: 2rem;
     color: #4caf50;

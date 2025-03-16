@@ -22,6 +22,7 @@ public class FileInformation {
         this.name = name;
         this.size = size;
         this.type = type;
+
         this.path = path;
         this.dir = dir;
     }
