@@ -23,7 +23,7 @@ public class FileDownloadController {
         if (validationService.RemoveCheckValidationOfSession(UUID.fromString(token)) == false) {
             return ResponseEntity.status(403).build();
         }
-        File targetFile = new File(FilestorageService.getRootDirectory() + "\\" + path);
+        File targetFile = new File(FilestorageService.getRootDirectory()+ File.separator +path);
         try {
             return filestorageService.download2(targetFile);
         } catch (IOException e) {

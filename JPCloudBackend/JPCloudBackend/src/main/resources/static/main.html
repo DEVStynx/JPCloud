@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JPCloud - File Explorer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="dropdown.css">
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -14,7 +18,7 @@
             <input type="text" class="path-input" id="path-input" placeholder="Enter path..." value="/" onkeydown="if(event.keyCode==13) setpath();">
         </div>
         <div class="toolbar">
-            <button>Upload</button>
+            <button onclick="location.href = 'file-view.html?token='+gettoken();">Upload</button>
             <button>Create Folder</button>
             <button>Delete</button>
         </div>
