@@ -57,7 +57,12 @@ function addFileToSite(file) {
     filediv.onclick = function () {
         if (file.dir == true) {
             path = file.path.replace('\\', '/');
-            window.location.href = `/main.html?token=${gettoken()}&path=${path}`;
+            if (window.location.href.includes('main.html')) {
+                window.location.href = `/main.html?token=${gettoken()}&path=${path}`;
+
+            } else {
+                window.location.href = `/file-view.html?token=${gettoken()}&path=${path}`;
+            }
         } else {
             download(file);
         }
