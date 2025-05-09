@@ -13,16 +13,23 @@
 </head>
 <body>
     <div class="window">
+        <div id="overlay">
+            <input type="text", class="in" id="overlay-dir-input" placeholder="Directory name", onkeydown="if(event.keyCode==13) {
+                createFolder(document.getElementById('overlay-dir-input').value);
+                console.log('created: '+document.getElementById('overlay-dir-input').value);
+            }">
+        </div>
         <div class="title-bar">
             <div class="title">JPCloud Explorer</div>
             <input type="text" class="path-input" id="path-input" placeholder="Enter path..." value="/" onkeydown="if(event.keyCode==13) setpath();">
         </div>
         <div class="toolbar">
             <button onclick="location.href = 'file-view.html?token='+gettoken();">Upload</button>
-            <button>Create Folder</button>
+            <button onclick="showOverlay(true)">Create Folder</button>
             <button>Delete</button>
         </div>
         <div class="content-wrapper">
+
             <div class="sidebar">
                 <ul>
                     <li>Home</li>

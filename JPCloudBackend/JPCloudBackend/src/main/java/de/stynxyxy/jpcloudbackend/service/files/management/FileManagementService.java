@@ -1,6 +1,7 @@
 package de.stynxyxy.jpcloudbackend.service.files.management;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
+import static java.rmi.server.LogStream.log;
+
+@Slf4j
 @Service
 public class FileManagementService {
     /**
@@ -102,5 +106,20 @@ public class FileManagementService {
 
         return ResponseEntity.
                 ok(target.delete());
+    }
+
+    public void createDirectory(String path, String name) {
+        File directoryBaseDir = new File(path);
+        if (!directoryBaseDir.exists()) {
+            log("This Path doesn't exist!");
+            return;
+        }
+
+        directoryBaseDir = new File(directoryBaseDir,name);
+        if (directoryBaseDir.exists() || !directoryBaseDir.isDirectory()) {
+            log("The given Directory does exist or isn't a Directory!");
+            return;
+        }
+        directoryBaseDir.mkdirs();
     }
 }

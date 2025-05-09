@@ -25,7 +25,7 @@ public class FileDownloadController {
         }
         File targetFile = new File(FilestorageService.getRootDirectory()+ File.separator +path);
         try {
-            return filestorageService.download2(targetFile);
+            return filestorageService.download(targetFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

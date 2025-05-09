@@ -4,7 +4,6 @@ import de.stynxyxy.jpcloudbackend.Main;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,22 +34,12 @@ public class FilestorageService {
 
         Files.copy(file.getInputStream(),targetFile,StandardCopyOption.REPLACE_EXISTING);
     }
-    public ResponseEntity<Resource> download(File path) throws IOException {
-        LOGGER.info("Called!");
-        if (!path.exists() && !path.isDirectory()) {
-            LOGGER.info("This format is not supported");
-            LOGGER.info("Path: " + path.toString());
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok()
-                .contentLength(path.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(Files.newInputStream(path.toPath())));
-    }
+
+
     public static String getRootDirectory() {
         return Main.sourcePath;
     }
-    public ResponseEntity<Resource> download2(File path) throws IOException {
+    public ResponseEntity<Resource> download(File path) throws IOException {
         LOGGER.info("Called!");
         if (!path.exists() && !path.isDirectory()) {
             LOGGER.info("This format is not supported");

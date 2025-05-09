@@ -26,19 +26,20 @@ public class FileUploadController {
     @PostMapping("/upload")
     public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam(name = "token") String token) {
         if (!validationService.RemoveCheckValidationOfSession(UUID.fromString(token))) {
-            System.out.println("Got called again!");
+
             return false;
         }
-        System.out.println("Got so far");
+
         try {
-            System.out.println("trying");
             service.saveFile(file);
             LOGGER.info("Downloaded new File: "+file.getOriginalFilename());
             return true;
         } catch (IOException e) {
-            System.out.println("DIdn't work");
+            System.out.println("File Upload didn't work");
             LOGGER.log(Level.SEVERE,"Exception during file Upload!",e);
         }
         return false;
     }
+
+
 }

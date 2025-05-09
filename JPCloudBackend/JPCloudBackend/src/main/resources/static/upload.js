@@ -34,7 +34,8 @@ function renameFile(originalFile, newName) {
 }
 
 async function uploadfile(file, token) {
-    const path = getpath(); // Hole den aktuellen Pfad
+    const path = getpath() == null ? "/" : getpath(); // Hole den aktuellen Pfad
+
     const newFileName = `${path}/${file.name}`; // Erstelle den neuen Dateinamen
     const renamedFile = renameFile(file, newFileName); // Erstelle eine neue Datei mit dem neuen Namen
 
@@ -59,3 +60,4 @@ async function uploadfile(file, token) {
         alert(`An error occurred while uploading file "${file.name}" to "${path}".`);
     }
 }
+

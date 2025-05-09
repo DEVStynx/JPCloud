@@ -1,3 +1,4 @@
+let overlay = false;
 async function loadFiles() {
     console.log("loadFiles()");
     const urlParams = new URLSearchParams(window.location.search);
@@ -91,10 +92,12 @@ function addFileToSite(file) {
     var open = document.createElement('li');
     open.textContent = "Open";
     open.className = "drop-file-option";
+
     open.onclick = function (event) {
         event.stopPropagation(); // Prevent click from propagating to parent elements
         console.log(`Open clicked for file: ${file.name}`);
         // Add any additional logic for "Open" here
+        window.location.href = `/fileopener.html?token=${gettoken()}&filePath=${getpath() + "/" + file.name}`
     };
     dropdownmenu.appendChild(open);
 
@@ -119,4 +122,47 @@ function download(file) {
     path = file.path.replace('\\','/');
 
     window.location.href = `/download?path=${path}&token=${gettoken()}`;
+}
+function getpath() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const path = urlParams.get('path') == null ? "/" : urlParams.get('path');
+    return path;
+}
+function showOverlay(on) {
+    if (on == true) {
+        document.getElementById("overlay").style.display = "block";
+    } else {
+        document.getElementById("overlay").style.display = "none";
+    }
+    overlay = on;
+
+}
+
+async function createFolder(name) {
+    let token = gettoken();
+    let path = getpath();
+
+    const formData = new FormData();
+    formData.append("path", path);
+    formData.append("token", token);
+    formData.append("name", name);
+
+    try {
+        const response = await fetch("/file/createfolder", {
+            method: "GET",
+            body: formData,
+        });
+
+        if (response.ok) {
+            alert(`Folder "${name}" created successfully.`);
+            window.location.reload();
+        } else {
+            alert("Failed to create folder.");
+        }
+    } catch (error) {
+        console.error("Error creating folder:", error);
+        alert("An error occurred while creating the folder.");
+    } finally {
+        showOverlay(false);
+    }
 }
