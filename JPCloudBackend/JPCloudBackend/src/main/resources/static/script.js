@@ -130,39 +130,31 @@ function getpath() {
 }
 function showOverlay(on) {
     if (on == true) {
-        document.getElementById("overlay").style.display = "block";
+        document.getElementById("overlay").style.display = "flex";
+        document.getElementById("overlay").classList.add("active");
     } else {
         document.getElementById("overlay").style.display = "none";
+        document.getElementById("overlay").classList.remove("active");
     }
     overlay = on;
-
 }
 
-async function createFolder(name) {
-    let token = gettoken();
-    let path = getpath();
-
-    const formData = new FormData();
-    formData.append("path", path);
-    formData.append("token", token);
-    formData.append("name", name);
-
+async function createFolder(folderName) {
     try {
-        const response = await fetch("/file/createfolder", {
-            method: "GET",
-            body: formData,
+        const token = gettoken();
+        const currentPath = getpath();
+
+        const response = await fetch(`/files/createFolder?token=${token}&path=${encodeURIComponent(currentPath)}&name=${encodeURIComponent(folderName)}`, {
+            method: 'POST'
         });
 
         if (response.ok) {
-            alert(`Folder "${name}" created successfully.`);
+            showOverlay(false);
             window.location.reload();
         } else {
-            alert("Failed to create folder.");
+            alert(`Fehler beim Erstellen des Ordners: ${response.statusText}`);
         }
     } catch (error) {
-        console.error("Error creating folder:", error);
-        alert("An error occurred while creating the folder.");
-    } finally {
-        showOverlay(false);
+        alert(`Fehler beim Erstellen des Ordners: ${error.message}`);
     }
 }

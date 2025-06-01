@@ -1,6 +1,7 @@
 package de.stynxyxy.jpcloudbackend.service.files.management;
 
 
+import de.stynxyxy.jpcloudbackend.Main;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -109,15 +110,17 @@ public class FileManagementService {
     }
 
     public void createDirectory(String path, String name) {
-        File directoryBaseDir = new File(path);
+        File directoryBaseDir = new File(Main.sourcePath + File.separator+path);
         if (!directoryBaseDir.exists()) {
-            log("This Path doesn't exist!");
+            System.err.println("This Path doesn't exist! " + directoryBaseDir);
             return;
         }
 
-        directoryBaseDir = new File(directoryBaseDir,name);
-        if (directoryBaseDir.exists() || !directoryBaseDir.isDirectory()) {
-            log("The given Directory does exist or isn't a Directory!");
+        directoryBaseDir = new File(directoryBaseDir.getAbsolutePath() + File.separator + name + File.separator);
+        if (directoryBaseDir.exists()) {
+            System.err.println("The given Directory does exist or isn't a Directory! " + directoryBaseDir);
+            System.err.println("exist: "+directoryBaseDir.exists());
+            System.err.println("dir " + !directoryBaseDir.isDirectory());
             return;
         }
         directoryBaseDir.mkdirs();
