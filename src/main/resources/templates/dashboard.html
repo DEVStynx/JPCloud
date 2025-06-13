@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script>
-        function downloadFile(element) {
-            const filePath = element.getAttribute('data-path');
-            if (filePath) {
-                window.location.href = '/file/download?path=' + encodeURIComponent(filePath);
-            }
-        }
-    </script>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="/js/client.js"></script>
 </head>
 <body>
 <div class="window">
+    <div class="folder-overlay" id="overlay">
+        <input type="text" class="in" name="" id="overlay-dir-input" placeholder="Directory name"
+        onkeydown="if (event.keyCode==13) {createDirectory(document.getElementById('overlay-dir-input').value);}">
+    </div>
+    <div class="create-new-section">
+        <button class="create-button " onclick="selectFile()"><img src="/images/upload.png" alt="Upload File"></button>
+        <button class="create-button" onclick="showDirOverlay(true)"><img src="/images/folder.png" alt="Create folder"></button>
+        <button class="round-button" onclick="toggleCreateButtons()">+</button>
+    
+    </div>
 
     <div class="content">
         <div class="file-grid" id="file-grid">
@@ -22,7 +27,7 @@
                 <li>
                     <div class="file"   th:attr="data-path=${file.getPath()}" onclick="downloadFile(this)">
 
-                    <div class="icon">📁</div>
+                    <div class="icon"><img th:src="${file.getDisplayIcon()}" alt="Logo"></div>
                         <div class="name" th:text="${file.getFileName()}"></div>
                     </div>
 

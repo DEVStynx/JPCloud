@@ -1,18 +1,21 @@
 package de.stynxyxy.jpclouddevelopment.service.IO.filestream;
 
 import de.stynxyxy.jpclouddevelopment.model.StoredCloudFile;
+import de.stynxyxy.jpclouddevelopment.util.io.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -25,7 +28,10 @@ public class FileIOServiceImpl implements FileIOService{
     @Override
     public void uploadFile(MultipartFile file, StoredCloudFile fileData) {
         try {
-            file.transferTo(fileData.getJFile());
+            File targetPath = new File(defaultBranchPath + File.separator + fileData.getPath() + File.separator+file.getOriginalFilename());
+            FileUtil.ensureDirectorysExists(targetPath.getAbsoluteFile());
+            InputStream fileContent = file.getInputStream();
+            Files.copy(fileContent, Path.of(targetPath.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -35,9 +41,14 @@ public class FileIOServiceImpl implements FileIOService{
     public ResponseEntity<?> downloadFile(StoredCloudFile fileData) {
         File rootPath = new File(defaultBranchPath);
         File downloadFile = new File(rootPath.getAbsolutePath() + File.separator + fileData.getPath());
-        if (!downloadFile.exists() || !downloadFile.isFile()) {
+        if (!downloadFile.exists() ) {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", "/error?message="+ "There was an Issue downloading the File, as it doesnt exist!");
+            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
+        }
+        if (downloadFile.isDirectory()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/dashboard?path="+ fileData.getPath().replace("\\","/"));
             return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
         try {
@@ -65,7 +76,11 @@ public class FileIOServiceImpl implements FileIOService{
             }
             Set<StoredCloudFile> files = new HashSet<>();
             for (File subFile : file.listFiles()) {
-                files.add(new StoredCloudFile(subFile.getName(),subFile.getAbsolutePath().replace(rootPath.getAbsolutePath(),""),subFile,subFile.getTotalSpace(),subFile.getName()));
+                try {
+                    files.add(new StoredCloudFile(subFile.getName(),subFile.getAbsolutePath().replace(rootPath.getAbsolutePath(),""),subFile,subFile.getTotalSpace(),Files.probeContentType(Path.of(subFile.getAbsolutePath()))));
+                } catch (IOException e) {
+                    logger.warning(e.getMessage());
+                }
             }
             return files;
         }

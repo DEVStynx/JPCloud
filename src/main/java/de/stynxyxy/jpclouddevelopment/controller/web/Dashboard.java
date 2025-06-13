@@ -25,8 +25,11 @@ public class Dashboard {
     @GetMapping("/dashboard")
     public String dashboard(Model model, @RequestParam(name = "path",required = false,defaultValue = "") String path) {
         File rootPath = new File(defaultBranchPath);
-        System.out.println(rootPath.getAbsolutePath());
         File requestedPath = new File(rootPath.getAbsolutePath() + File.separator + path);
+        if (path.contains("../") || path.contains("..")) {
+            model.addAttribute("files",fileIOService.getFiles(defaultBranchPath));
+            return "dashboard";
+        }
         model.addAttribute("files", fileIOService.getFiles(requestedPath.getAbsolutePath()));
         return "dashboard";
     }
