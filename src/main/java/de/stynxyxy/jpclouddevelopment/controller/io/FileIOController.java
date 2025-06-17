@@ -1,9 +1,13 @@
 package de.stynxyxy.jpclouddevelopment.controller.io;
 
+import de.stynxyxy.jpclouddevelopment.db.model.branch.Branch;
+import de.stynxyxy.jpclouddevelopment.db.model.branch.BranchRepository;
 import de.stynxyxy.jpclouddevelopment.model.StoredCloudFile;
+import de.stynxyxy.jpclouddevelopment.service.IO.branch.BranchValidationService;
 import de.stynxyxy.jpclouddevelopment.service.IO.filestream.FileIOService;
 import de.stynxyxy.jpclouddevelopment.util.io.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +25,30 @@ public class FileIOController {
     @Autowired
     private FileIOService fileIOService;
 
+    @Autowired
+    private BranchRepository branchRepository;
+
+    @Autowired
+    private BranchValidationService branchValidationService;
+
+    @Value("${jpcloud.branches.defaultbranch.label}")
+    private String defaultBranchLabel;
+
     @PostMapping("/file/upload")
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, String path) {
-        StoredCloudFile cloudFile = FileUtil.MultipartToData(file,path);
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, String path, @RequestParam("branch") long branchId) {
+        Branch branch;
+        if (!branchRepository.existsById(branchId)) {
+            branch = branchRepository.getByLabel(defaultBranchLabel);
+        } else {
+            branch = branchRepository.getById(branchId);
+
+        }
+
+        if (!branchValidationService.isValid(branch)) {
+            branchValidationService.createPath(branch);
+        }
+
+        StoredCloudFile cloudFile = FileUtil.MultipartToData(file,path, branch);
         fileIOService.uploadFile(file,cloudFile);
 
         String redirectTo = "/dashboard";
@@ -37,8 +62,18 @@ public class FileIOController {
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
     @GetMapping("/file/download")
-    public ResponseEntity<?> download(@RequestParam("path") String path) {
-        File file = new File(path);
+    public ResponseEntity<?> download(@RequestParam("path") String path, @RequestParam("branch") long branchId) {
+        Branch branch;
+        if (!branchRepository.existsById(branchId) ||branchId == -1) {
+            branch = branchRepository.getByLabel(defaultBranchLabel);
+        } else {
+            branch = branchRepository.getById(branchId);
+        }
+
+        if (!branchValidationService.isValid(branch)) {
+            branchValidationService.createPath(branch);
+        }
+        File file = new File(branch.getPath() + File.separator + path);
         StoredCloudFile storedCloudFile = new StoredCloudFile(file.getName(),path,file,0,file.getName());
         return fileIOService.downloadFile(storedCloudFile);
     }

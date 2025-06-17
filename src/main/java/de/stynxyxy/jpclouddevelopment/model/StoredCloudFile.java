@@ -1,7 +1,9 @@
 package de.stynxyxy.jpclouddevelopment.model;
 
 import de.stynxyxy.jpclouddevelopment.db.model.branch.Branch;
+import de.stynxyxy.jpclouddevelopment.db.model.branch.BranchRepository;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
@@ -14,8 +16,11 @@ public class StoredCloudFile {
     private String fileType;
     private String displayIcon;
     private boolean isDirectory;
+    private Branch branch;
 
-    public StoredCloudFile(String fileName, String path, File jFile, long size, String fileType) {
+
+
+    public StoredCloudFile(String fileName, String path, File jFile, long size, String fileType, Branch branch) {
         this.fileName = fileName;
         this.path = path;
         this.jFile = jFile;
@@ -23,6 +28,10 @@ public class StoredCloudFile {
         this.fileType = fileType;
         this.isDirectory = jFile.isDirectory();
         this.displayIcon = getIconForExtension();
+        this.branch = branch;
+    }
+    public StoredCloudFile(String fileName, String path, File jFile, long size, String fileType) {
+        this(fileName,path,jFile,size,fileType,null);
     }
     private String getIconForExtension() {
         if (isDirectory) {

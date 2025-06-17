@@ -22,13 +22,14 @@ public class FileUtil {
     @Value("${jpcloud.branches.defaultbranch.path}")
     private static String defaultBranchPath;
     private static Logger logger = Logger.getLogger(FileUtil.class.getSimpleName());
-    public static StoredCloudFile MultipartToData(MultipartFile multipartFile, String path) {
+    public static StoredCloudFile MultipartToData(MultipartFile multipartFile, String path, Branch branch) {
         StoredCloudFile storedCloudFile = new StoredCloudFile(
                 multipartFile.getName(),
                 path,
-                new File(path + File.separator + multipartFile.getName()),
+                new File(branch.getPath()+File.separator+path + File.separator + multipartFile.getName()),
                 multipartFile.getSize(),
-                multipartFile.getContentType());
+                multipartFile.getContentType(),
+                branch);
         return storedCloudFile;
     }
     public static Branch getDefaultBranch() {

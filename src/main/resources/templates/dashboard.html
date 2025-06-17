@@ -14,14 +14,21 @@
         <input type="text" class="in" name="" id="overlay-dir-input" placeholder="Directory name"
         onkeydown="if (event.keyCode==13) {createDirectory(document.getElementById('overlay-dir-input').value);}">
     </div>
-    <div class="create-new-section">
-        <button class="create-button " onclick="selectFile()"><img src="/images/upload.png" alt="Upload File"></button>
-        <button class="create-button" onclick="showDirOverlay(true)"><img src="/images/folder.png" alt="Create folder"></button>
-        <button class="round-button" onclick="toggleCreateButtons()">+</button>
-    
+    <div class="title-bar">
+        <h1 class="title">JPCloud Explorer</h1>
+        <input type="text" class="path-input" id="path-input" placeholder="Enter path..." value="/" onkeydown="if(event.keyCode==13) setpath();">
     </div>
-
-    <div class="content">
+    <div class="content-wrapper">
+        <div class="sidebar">
+            <h1>Branches</h1>
+            <ul>
+                <li th:each="branch : ${branches}" th:onclick="'switchBranch(' + ${branch.getId()} + ')'"
+                    th:class="${param.branch != null && param.branch[0] == branch.getId().toString() ? 'active' : ''}">
+                    <span th:text="${branch.getLabel()}"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
         <div class="file-grid" id="file-grid">
             <ul th:each="file : ${files}">
                 <li>
@@ -35,6 +42,17 @@
             </ul>
         </div>
     </div>
+    </div>
+    
+
+    <div class="create-new-section">
+        <button class="create-button " onclick="selectFile()"><img src="/images/upload.png" alt="Upload File"></button>
+        <button class="create-button" onclick="showDirOverlay(true)"><img src="/images/folder.png" alt="Create folder"></button>
+        <button class="round-button" onclick="toggleCreateButtons()">+</button>
+    
+    </div>
+
+    
 </div>
 </body>
 </html>
