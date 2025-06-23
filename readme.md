@@ -38,3 +38,12 @@ JPCloud is an intuitive cloud solution built with **Java Spring Boot** for the b
 
 JPCloud is open-source and licensed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
+## Disclaimer
+
+This software is provided as an open-source project for educational and self-hosting purposes only.
+
+Use of this software is at your own risk. The author assumes no liability for any direct or indirect damages, data loss, or legal consequences resulting from the use of this software.
+
+If you store or process personal data using this software, you are solely responsible for complying with applicable data protection laws (e.g. GDPR).
+
+Please also review the license terms of this software and all third-party libraries it uses.
