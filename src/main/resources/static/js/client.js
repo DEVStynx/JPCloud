@@ -58,11 +58,49 @@ function selectFile() {
     input.click();
 }
 
+function forceDownload(path) {
+    window.location.href = '/file/download?path=' + path.replaceAll("\\","/") + '&branch=' + getCurrentBranchId();
+    return;
+}
+function downloadFile(element, force = false) {
 
-function downloadFile(element) {
     const filePath = element.getAttribute('data-path');
+    if (force) {
+        forceDownload(element.getAttribute('data-path'));
+        return;
+    }
     if (filePath) {
-        window.location.href = '/file/download?path=' + encodeURIComponent(filePath) + '&branch=' + getCurrentBranchId();
+        const fileExtension = filePath.split('.').pop().toLowerCase();
+        const previewableTypes = [
+            // docs
+            'pdf', 'rtf', 'odt',
+
+            // img
+            'jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp', 'tiff', 'ico',
+
+            // text
+            'txt', 'log', 'csv', 'tsv',
+
+            // Code
+            'json', 'xml', 'md', 'html', 'css', 'js', 'java', 'properties', 'yml', 'yaml',
+            'php', 'py', 'rb', 'c', 'cpp', 'h', 'hpp', 'cs', 'go', 'rs', 'ts', 'jsx', 'tsx',
+            'vue', 'sh', 'bat', 'ps1', 'sql', 'gradle', 'groovy', 'kt', 'scala', 'swift',
+
+            // configs
+            'ini', 'conf', 'config', 'toml', 'env',
+
+            // More Loadable
+            'markdown', 'tex', 'rst'
+        ];
+
+        if (previewableTypes.includes(fileExtension)) {
+            // show preview
+            window.location.href = '/file/preview?path=' + filePath.replaceAll("\\","/") + '&branch=' + getCurrentBranchId();
+        } else {
+            // download
+            window.location.href = '/file/download?path=' + filePath.replaceAll("\\","/") + '&branch=' + getCurrentBranchId();
+            alert("Requested path: "+filePath);
+        }
     }
 }
 function showDirOverlay(on) {
@@ -124,9 +162,11 @@ function setpath() {
 }
 
 function setBranch(branchId) {
+    console.log('Branch changed: '+ branchId);
     const params = new URLSearchParams(window.location.search);
     let path = params.has('path') ? params.get('path') : '';
     window.location.href = '/dashboard?path=' + path + '&branch=' + branchId;
+    document.getElementById("path-input").value = "/";
 }
 
 window.onload = () => {
@@ -135,8 +175,17 @@ window.onload = () => {
     if (params.has('path')) {
         pathInput.value = params.get('path');
     }
+
 }
 function toggleCreateButtons() {
     const createSection = document.querySelector('.create-new-section');
     createSection.classList.toggle('active');
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadButton = document.querySelector('.round-button');
+    if (downloadButton) {
+        downloadButton.addEventListener('click', function() {
+            forceDownload(this.getAttribute('data-path'));
+        });
+    }
+});

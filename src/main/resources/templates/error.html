@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>JPCloud - Error</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="/js/client.js"></script>
+    <script src="../static/js/client.js"></script>
+</head>
+<body>
+<div class="window">
+    <div class="title-bar">
+        <h1 class="title"><a href="/dashboard" style="text-decoration: none; color: var(--text-primary);">JPCloud</a></h1>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <div style="max-width: 600px; margin: 50px auto; padding: 0 20px;">
+                <div class="error">
+                    <h1>JpCloud Error</h1>
+                    <div class="error-message">
+                        <p id="message">Error</p>
+                    </div>
+                    <p id="tamsg">Contact the developers. Please try again later.</p>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <a href="/dashboard" style="text-decoration: none;">
+                            <button class="round-button" style="margin: 0 auto; width: auto; height: auto; padding: 10px 20px; border-radius: 8px;">
+                                Return to Dashboard
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const queryParams = window.location.search;
+    console.log("Query Parameters:", queryParams);
+
+    const urlParams = new URLSearchParams(queryParams);
+    const errorParam = urlParams.get('message'); 
+    console.log("Error Parameter:", errorParam);
+
+    const message = document.getElementById('message');
+    if (errorParam) {
+        message.textContent = errorParam;
+    }
+</script>
+</body>
+</html>

@@ -49,7 +49,7 @@ public class FileIOController {
         }
 
         StoredCloudFile cloudFile = FileUtil.MultipartToData(file,path, branch);
-        fileIOService.uploadFile(file,cloudFile);
+        fileIOService.uploadFile(file,cloudFile,branch);
 
         String redirectTo = "/dashboard";
         if (path != null && !path.isEmpty()) {
@@ -64,7 +64,7 @@ public class FileIOController {
     @GetMapping("/file/download")
     public ResponseEntity<?> download(@RequestParam("path") String path, @RequestParam("branch") long branchId) {
         Branch branch;
-        if (!branchRepository.existsById(branchId) ||branchId == -1) {
+        if (!branchRepository.existsById(branchId) || branchId == -1) {
             branch = branchRepository.getByLabel(defaultBranchLabel);
         } else {
             branch = branchRepository.getById(branchId);
@@ -73,9 +73,9 @@ public class FileIOController {
         if (!branchValidationService.isValid(branch)) {
             branchValidationService.createPath(branch);
         }
-        File file = new File(branch.getPath() + File.separator + path);
+        File file = new File(path);
         StoredCloudFile storedCloudFile = new StoredCloudFile(file.getName(),path,file,0,file.getName());
-        return fileIOService.downloadFile(storedCloudFile);
+        return fileIOService.downloadFile(storedCloudFile,branch);
     }
 
 

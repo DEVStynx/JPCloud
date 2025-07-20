@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 @Controller
 public class Dashboard {
@@ -26,6 +27,7 @@ public class Dashboard {
     private String defaultBranchName;
     @Autowired
     BranchValidationService branchValidationService;
+    private Logger logger = Logger.getLogger(getClass().getSimpleName());
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, @RequestParam(name = "path",required = false,defaultValue = "") String path, @RequestParam(value = "branch", required = false, defaultValue = "-1") long branchId) {
@@ -40,14 +42,14 @@ public class Dashboard {
             branchValidationService.createPath(branch);
         }
 
-        File rootPath = new File(branch.getPath());
-        File requestedPath = new File(rootPath.getAbsolutePath() + File.separator + path);
+
         model.addAttribute("branches",branchRepository.findAll());
         if (path.contains("../") || path.contains("..")) {
-            model.addAttribute("files",fileIOService.getFiles(defaultBranchPath));
+            model.addAttribute("files",fileIOService.getFiles("/",branch));
             return "dashboard";
         }
-        model.addAttribute("files", fileIOService.getFiles(requestedPath.getAbsolutePath()));
+        logger.info("getting files at path: "+path + " and branchPath: "+branch.getPath());
+        model.addAttribute("files", fileIOService.getFiles(path,branch));
         return "dashboard";
     }
 }
