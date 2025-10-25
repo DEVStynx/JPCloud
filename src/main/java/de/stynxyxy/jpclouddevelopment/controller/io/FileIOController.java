@@ -75,6 +75,7 @@ public class FileIOController {
         }
         File file = new File(path);
         StoredCloudFile storedCloudFile = new StoredCloudFile(file.getName(),path,file,0,file.getName());
+        storedCloudFile.setBranch(branchRepository.getById(branchId));
         return fileIOService.downloadFile(storedCloudFile,branch);
     }
 

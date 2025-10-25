@@ -53,7 +53,7 @@ public class FileIOServiceImpl implements FileIOService{
         }
         if (downloadFile.isDirectory()) {
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Location", "/dashboard?path="+ fileData.getPath().replace("\\","/"));
+            headers.add("Location", "/dashboard?path="+ fileData.getPath().replace("\\","/")+"&branch="+branch.getId());
             return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
         try {

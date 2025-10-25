@@ -6,13 +6,11 @@ import de.stynxyxy.jpclouddevelopment.service.IO.branch.BranchValidationService;
 import de.stynxyxy.jpclouddevelopment.service.IO.filestream.FileIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 @Controller
@@ -27,15 +25,13 @@ public class Dashboard {
     private String defaultBranchName;
     @Autowired
     BranchValidationService branchValidationService;
-    private Logger logger = Logger.getLogger(getClass().getSimpleName());
+    private final Logger logger = Logger.getLogger(getClass().getSimpleName());
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, @RequestParam(name = "path",required = false,defaultValue = "") String path, @RequestParam(value = "branch", required = false, defaultValue = "-1") long branchId) {
-        Branch branch;
+        Branch branch = branchRepository.getById(branchId);
         if (!branchRepository.existsById(branchId) || branchId == -1) {
             branch = branchRepository.getByLabel(defaultBranchName);
-        } else {
-            branch = branchRepository.getById(branchId);
         }
 
         if (!branchValidationService.isValid(branch)) {

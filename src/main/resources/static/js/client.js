@@ -99,7 +99,7 @@ function downloadFile(element, force = false) {
         } else {
             // download
             window.location.href = '/file/download?path=' + filePath.replaceAll("\\","/") + '&branch=' + getCurrentBranchId();
-            alert("Requested path: "+filePath);
+            //alert("Requested path: "+filePath);
         }
     }
 }
@@ -159,6 +159,7 @@ function setpath() {
     var input = document.getElementById("path-input");
     var path = input.value;
     document.location.href = '/dashboard?path=' + path;
+    setBranch(getCurrentBranchId());
 }
 
 function setBranch(branchId) {
