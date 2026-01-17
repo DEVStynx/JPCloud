@@ -25,7 +25,7 @@ JPCloud is an intuitive cloud solution built with **Java Spring Boot** for the b
 ## Technologies
 
 🚀 **Backend**: Java, Spring Boot, REST API, Hibernate\
-🖥 **Frontend**: C++ (Qt)/ browser support(html/css/javascript)\
+🖥 **Frontend**: C++ (Qt) Outdated/ browser support(html/css/javascript)\
 💾 **Database**: PostgreSQL/mysql \
 🔐 **Security**: SSL Support\
 
