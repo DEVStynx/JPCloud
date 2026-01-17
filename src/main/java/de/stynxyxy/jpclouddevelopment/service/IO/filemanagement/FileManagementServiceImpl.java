@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 @Service
 public class FileManagementServiceImpl implements FileManagementService{
-    private Logger logger = Logger.getLogger(FileManagementService.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(FileManagementService.class.getSimpleName());
     @Override
     public void CopyFile(StoredCloudFile origin, String destinationPath, Branch destBranch) {
 
