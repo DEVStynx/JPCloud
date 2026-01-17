@@ -2,8 +2,10 @@ package de.stynxyxy.jpclouddevelopment.controller.io;
 
 import de.stynxyxy.jpclouddevelopment.db.model.branch.Branch;
 import de.stynxyxy.jpclouddevelopment.db.model.branch.BranchRepository;
+import de.stynxyxy.jpclouddevelopment.model.StoredCloudFile;
 import de.stynxyxy.jpclouddevelopment.service.IO.branch.BranchValidationService;
 import de.stynxyxy.jpclouddevelopment.service.IO.filemanagement.FileManagementService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
+import static java.rmi.server.LogStream.log;
+
+@Slf4j
 @RestController
 public class FileManagementController {
     @Autowired
@@ -41,5 +47,25 @@ public class FileManagementController {
                 return ResponseEntity.badRequest().body("Bad branch");
             }
         }
+    }
+    @PostMapping("/file/deletefile")
+    public ResponseEntity<?> deleteFile(@RequestParam(name = "path") String path, @RequestParam(name = "branch") long branchId) {
+        System.out.println("deleete file");
+        Branch branch;
+        StoredCloudFile cloudFile;
+        if (branchId == -1) {
+            branch = branchRepo.findByLabel(defaultBranchLabel).orElseThrow();
+        } else {
+            branch = branchRepo.findById(branchId).orElseThrow();
+        }
+        if (!branchValidationService.isValid(branch))
+            return ResponseEntity.badRequest().body("Bad branch");
+        try {
+            cloudFile = StoredCloudFile.getFile(branch,path);
+        } catch (FileNotFoundException e) {
+            return ResponseEntity.badRequest().body("File not Found");
+        }
+        managementService.deleteFile(cloudFile);
+        return ResponseEntity.ok().build();
     }
 }

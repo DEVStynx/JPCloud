@@ -44,8 +44,13 @@ public class Dashboard {
             model.addAttribute("files",fileIOService.getFiles("/",branch));
             return "dashboard";
         }
+
         logger.info("getting files at path: "+path + " and branchPath: "+branch.getPath());
         model.addAttribute("files", fileIOService.getFiles(path,branch));
         return "dashboard";
+    }
+    @GetMapping("/")
+    public String index(Model model, @RequestParam(name = "path",required = false,defaultValue = "") String path, @RequestParam(value = "branch", required = false, defaultValue = "-1") long branchId) {
+        return dashboard(model,path,branchId);
     }
 }

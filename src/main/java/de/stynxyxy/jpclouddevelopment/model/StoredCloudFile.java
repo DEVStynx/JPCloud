@@ -1,11 +1,10 @@
 package de.stynxyxy.jpclouddevelopment.model;
 
 import de.stynxyxy.jpclouddevelopment.db.model.branch.Branch;
-import de.stynxyxy.jpclouddevelopment.db.model.branch.BranchRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 @Data
 public class StoredCloudFile {
@@ -32,6 +31,12 @@ public class StoredCloudFile {
     }
     public StoredCloudFile(String fileName, String path, File jFile, long size, String fileType) {
         this(fileName,path,jFile,size,fileType,null);
+    }
+    public static StoredCloudFile getFile(Branch branch, String path) throws FileNotFoundException {
+        File systemFile = new File(branch.getPath() + File.separator + path);
+        if (!systemFile.exists())
+            throw new FileNotFoundException(systemFile.getAbsolutePath());
+        return new StoredCloudFile(systemFile.getName(),path,systemFile,systemFile.getTotalSpace(),systemFile.getName(),branch);
     }
     private String getIconForExtension() {
         if (isDirectory) {

@@ -34,7 +34,7 @@
         <div class="file-grid" id="file-grid">
             <ul th:each="file : ${files}">
                 <li>
-                    <div class="file"   th:attr="data-path=${file.getPath()}" onclick=" downloadFile(this)">
+                    <div class="file"   th:attr="data-path=${file.getPath()}" onclick=" downloadFile(this)" oncontextmenu="deleteFile(this)">
 
                     <div class="icon"><img th:src="${file.getDisplayIcon()}" alt="Logo"></div>
                         <div class="name" th:text="${file.getFileName()}"></div>

@@ -42,8 +42,13 @@ public class FileManagementServiceImpl implements FileManagementService{
 
     @Override
     public boolean deleteFile(StoredCloudFile file) {
-        File systemFile = new File(file.getPath());
+        File systemFile = file.getJFile();
+        logger.info("attempt to delete File");
         if (file.getJFile() == null || !systemFile.exists()) {
+            logger.warning("failed to delete File:");
+            logger.warning("JFile = null: " +( file.getJFile() == null));
+            logger.warning("File exists: "+systemFile.exists());
+            logger.warning("File path: "+systemFile.getAbsolutePath());
             return false;
         }
         return systemFile.delete();
